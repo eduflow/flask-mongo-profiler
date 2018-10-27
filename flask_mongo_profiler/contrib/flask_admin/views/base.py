@@ -44,7 +44,7 @@ class ExtraDetailColumnsMixin(object):
         )
 
 
-class RelationalModelView(object):
+class RelationalFieldMixin(object):
     allowed_search_types = ModelView.allowed_search_types + (
         mongoengine.fields.ObjectIdField,
         mongoengine.fields.ReferenceField,
@@ -199,7 +199,7 @@ class BaseModelView(
     ReadOnlyMixin,
     PrettyDatesMixin,
     ExtraDetailColumnsMixin,
-    RelationalModelView,
+    RelationalFieldMixin,
     RelationalSearchMixin,
     ColumnFieldTypeFormattersMixin,
     ModelView,
