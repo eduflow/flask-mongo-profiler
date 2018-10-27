@@ -40,8 +40,6 @@ install dev     .. code-block:: bash
                     $ source .venv/bin/activate
                     $ pip install -e .
 
-                See the `developing and testing`_ page in the docs for
-                more.
 tests           .. code-block:: bash
 
                     $ make test
