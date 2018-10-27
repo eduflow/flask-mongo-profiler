@@ -1,0 +1,37 @@
+language: python
+
+sudo: false
+python:
+  - 2.7
+  - 3.6
+  - 3.7
+
+env:
+  global:
+    - PIP_DISABLE_PIP_VERSION_CHECK=on
+
+matrix:
+  include:
+  - python: "3.7"
+     sudo: required  # required for Python 3.7 (travis-ci/travis-ci#9069)
+  allow_failures:
+  - python: pypy
+
+before_install:
+  - export PIP_USE_MIRRORS=true
+  - pip install coveralls
+
+before_script:
+  - sleep 15
+  - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
+
+install:
+  - pip install -e .
+
+script: coverage run --source=flask_mongo_profiler setup.py test
+
+services:
+  - mongodb
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
