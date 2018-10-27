@@ -158,7 +158,7 @@ class RelationalSearchMixin(object):
                     rel_fields = (
                         getattr(self, 'column_searchable_refs', {})
                         .get(field.name, {})
-                        .get('fields', 'id')
+                        .get('fields', ['id'])
                     )
                     ids = [
                         o.id for o in search_relative_field(rel_model, rel_fields, term)
