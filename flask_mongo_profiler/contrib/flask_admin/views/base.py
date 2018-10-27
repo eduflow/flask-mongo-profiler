@@ -2,10 +2,15 @@
 from __future__ import absolute_import, unicode_literals
 
 import datetime
+import re
 
+import bson
 import mongoengine
+import ushlex
+from flask_admin.contrib.mongoengine.tools import parse_like_term
 from flask_admin.contrib.mongoengine.view import ModelView
 
+from ....constants import RE_OBJECTID
 from ..formatters.date import date_formatter
 from ..formatters.polymorphic_relations import (
     generic_lazy_ref_formatter,
@@ -134,7 +139,7 @@ class RelationalSearchMixin(object):
 
         # If an ObjectId pattern, see if we can get an instant lookup.
         if len(terms) == 1 and re.match(RE_OBJECTID, terms[0]):
-            q = query.filter(id=ObjectId(terms[0]))
+            q = query.filter(id=bson.ObjectId(terms[0]))
             if q.count() == 1:  # Note: .get doesn't work, they need a QuerySet
                 return q
 
