@@ -57,7 +57,7 @@ class ProfilingRequestView(ProfilingCommonView):
     column_descriptions = {
         'referrer': 'Page requesting API endpoint. If empty, is the page itself.'
     }
-    # column_searchable_list = ['path', 'method']
+    column_searchable_list = ['path', 'method']
 
     column_labels = {
         'duration': 'Duration (ms)',
@@ -88,7 +88,7 @@ class ProfilingRequestView(ProfilingCommonView):
 class ProfilingQueryView(ProfilingCommonView):
     column_filters = ['command_name', 'request']
     column_list = ['command_name', 'request', 'duration', 'command']
-    # column_searchable_list = ['command_name', 'request']
+    column_searchable_list = ['command_name', 'request']
 
     column_labels = {'duration': 'Duration (ms)'}
 
