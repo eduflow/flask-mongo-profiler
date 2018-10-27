@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
+import re
+
+import bson
+import mongoengine
+
+from ...constants import RE_OBJECTID
+
 
 def get_list_url_filtered_by_field_value(view, model, name, reverse=False):
     """Get the URL if a filter of model[name] value was appended.
@@ -54,3 +61,39 @@ def get_list_url_filtered_by_field_value(view, model, name, reverse=False):
     return view._get_list_url(
         view_args.clone(filters=filters, page=0)  # Reset page to 0
     )
+
+
+def search_relative_field(model_class, fields, term):
+    """Searches a ReferenceField's fields, returning ID's to be used in __in
+
+    There is no JOIN, so no Assignment.objects.filter(course__title='My Course'). To
+    get around this, we return a list of ID's.
+
+    Since this is an internal tool, we allow multiple fields to AND/OR group.
+    """
+    offset = 0
+    limit = 500
+    query = model_class.objects
+
+    criteria = None
+
+    # If an ObjectId pattern, see if we can get an instant lookup.
+    if re.match(RE_OBJECTID, term):
+        q = query.filter(id=bson.ObjectId(term)).only('id')
+        if q.count() == 1:  # Note: .get doesn't work, they need a QuerySet
+            return q
+
+    for field in fields:
+        flt = {u'%s__icontains' % field: term}
+
+        if not criteria:
+            criteria = mongoengine.Q(**flt)
+        else:
+            criteria |= mongoengine.Q(**flt)
+
+    query = query.filter(criteria)
+
+    if offset:
+        query = query.skip(offset)
+
+    return query.limit(limit).only('id').all()
