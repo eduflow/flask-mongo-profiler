@@ -65,11 +65,49 @@ class PrettyDatesMixin(object):
     column_type_formatters_detail = {datetime.date: date_formatter}
 
 
+class ColumnFieldTypeFormattersMixin(object):
+    def __init__(self, *args, **kwargs):
+        """
+        Wire-in our model field type formatters.
+
+        We added new property not in Flask-Admin called column_field_type_formatters.
+        These are based off the model's field, rather than the field's return value.
+        The reason why is we're resolving referenced fields, sometimes even generic,
+        lazily-loaded ones, to URL routes. Flask-Admin prefixes URL's to the model
+        class name, lowercase. E.g. User -> user.details_view.
+        """
+        super(ColumnFieldTypeFormattersMixin, self).__init__(*args, **kwargs)
+        for c in self.column_list:
+            if c in self.model._fields:
+                field_class = self.model._fields[c].__class__
+                if c not in self.column_formatters:
+                    if field_class in getattr(self, 'column_field_type_formatters', {}):
+                        self.column_formatters[c] = self.column_field_type_formatters[
+                            field_class
+                        ]
+
+        # Same as above, but for mapping Mongoengine field types (not return value
+        # types) to formatters used in detail view.
+        for c in self.model._fields:
+            field_class = self.model._fields[c].__class__
+            if c not in self.column_formatters_detail:
+                if field_class in getattr(
+                    self, 'column_field_type_formatters_detail', {}
+                ):
+                    self.column_formatters_detail[
+                        c
+                    ] = self.column_field_type_formatters_detail[field_class]
+
+
 class BaseModelView(
     ReadOnlyMixin,
     PrettyDatesMixin,
     ExtraDetailColumnsMixin,
     RelationalModelView,
+    ColumnFieldTypeFormattersMixin,
     ModelView,
 ):
-    pass
+    named_filter_urls = True  # Needed for lookup fields
+
+    def __init__(self, *args, **kwargs):
+        super(ColumnFieldTypeFormattersMixin, self).__init__(*args, **kwargs)
