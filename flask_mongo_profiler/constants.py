@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 
 # Used to replace keys with for mongodb compatibility
 # We will use these in admin formatters to show commands as they
@@ -15,3 +16,6 @@ MONGO_COMMAND_KEY_PERIOD_SIGN_REPLACEMENT = '-'
 # Used to replace keys with . for mongodb compatibility
 # e.g. wsgi.url_scheme
 WERKZEUG_ENVIRON_KEY_REPLACEMENT = '-'
+
+# Match MongoDB ObjectID pattern
+RE_OBJECTID = re.compile('([0-9a-f]{24})')
