@@ -1,0 +1,15 @@
+.. currentmodule:: flask_mongo_profiler
+
+Changes
+=======
+
+Development
+-----------
+
+October 27th, 2018
+
+- README
+- Metadata
+- Packaging
+- Formatting / linting
+- Initial README
