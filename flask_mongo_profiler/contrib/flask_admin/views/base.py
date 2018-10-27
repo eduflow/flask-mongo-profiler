@@ -160,6 +160,11 @@ class RelationalSearchMixin(object):
                         .get(field.name, {})
                         .get('fields', ['id'])
                     )
+
+                    # If term isn't an ID, don't do an ID lookup
+                    if rel_fields == ['id'] and not re.match(RE_OBJECTID, term):
+                        continue
+
                     ids = [
                         o.id for o in search_relative_field(rel_model, rel_fields, term)
                     ]
