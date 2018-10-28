@@ -4,12 +4,17 @@ import sys
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
+PY2 = sys.version_info[0] == 2
+
 about = {}
 with open("flask_mongo_profiler/__about__.py") as fp:
     exec(fp.read(), about)
 
 with open('requirements/base.txt') as f:
     install_reqs = [line for line in f.read().split('\n') if line]
+
+if PY2:
+    install_reqs.append('ushlex')
 
 with open('requirements/test.txt') as f:
     tests_reqs = [line for line in f.read().split('\n') if line]
