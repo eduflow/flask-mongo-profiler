@@ -10,8 +10,11 @@ October 28th, 2018
 
 - Add example project
 - Add tests for example project
+- Test middleware, admin panel, coverage
 - Fix date module
 - Docs: Add API docs
+- Python 2/3 fixes
+- Template helper
 
 0.5.0 alpha 1
 -------------
