@@ -11,6 +11,13 @@ Utility
    :members:
    :undoc-members:
 
+Helpers
+-------
+
+.. automodule:: flask_mongo_profiler.helpers
+   :members:
+   :undoc-members:
+
 Constants
 ---------
 
