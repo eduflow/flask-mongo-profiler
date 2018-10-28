@@ -82,7 +82,7 @@ class ProfilerMiddleware(object):
                     referrer=referrer.path,
                     environ={
                         k.replace('.', WERKZEUG_ENVIRON_KEY_REPLACEMENT): v
-                        for k, v in environ.items()[:18]
+                        for k, v in list(environ.items())[:18]
                         if any(
                             isinstance(v, _type)
                             for _type in [list, tuple, str, dict, int]
