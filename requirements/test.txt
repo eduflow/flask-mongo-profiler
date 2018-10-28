@@ -1,1 +1,2 @@
 pytest==3.9.2
+pytest-flask==0.14.0
