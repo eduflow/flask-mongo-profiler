@@ -4,14 +4,14 @@ import os
 import sys
 from os.path import dirname, relpath
 
-import flask_mongo_profiler
-from flask_mongo_profiler import contrib
-
 # Get the project root dir, which is the parent dir of this
 cwd = os.getcwd()
 project_root = os.path.dirname(cwd)
 
 sys.path.insert(0, project_root)
+
+import flask_mongo_profiler  # # NOQA: F401 isort:skip
+from flask_mongo_profiler import contrib  # NOQA: F401 isort:skip
 
 # package data
 about = {}
