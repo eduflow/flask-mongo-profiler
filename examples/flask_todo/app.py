@@ -54,11 +54,13 @@ def create_app(init_profiler=True, init_admin=True):
     app.config.from_object(__name__)
     app.config['MONGODB_SETTINGS'] = {'DB': 'testing'}
     app.config['TESTING'] = True
+
+    if init_profiler:  # has to start before pymongo client created
+        setup_flask_mongo_profiler(app)
+
     db = MongoEngine()
     db.init_app(app)
 
-    if init_profiler:
-        setup_flask_mongo_profiler(app)
     if init_admin:
         setup_flask_admin(app)
 
