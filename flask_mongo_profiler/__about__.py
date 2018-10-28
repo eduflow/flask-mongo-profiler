@@ -1,6 +1,6 @@
 __title__ = 'flask-mongo-profiler'
 __package_name__ = 'flask_mongo_profiler'
-__version__ = 'dev'
+__version__ = '0.5.0a1'
 __description__ = 'Profiling tools for MongoDB'
 __email__ = 'team@peergrade.io'
 __author__ = 'Peergrade'
