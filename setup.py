@@ -14,7 +14,7 @@ with open('requirements/base.txt') as f:
 with open('requirements/test.txt') as f:
     tests_reqs = [line for line in f.read().split('\n') if line]
 with open('requirements/contrib.txt') as f:
-    tests_reqs = [line for line in f.read().split('\n') if line]
+    tests_reqs.extend([line for line in f.read().split('\n') if line])
 
 if sys.version_info[0] > 2:
     readme = open('README.rst', encoding='utf-8').read()
