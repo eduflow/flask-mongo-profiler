@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import os
+
 from flask import Flask
 from flask_mongoengine import MongoEngine
 
@@ -74,4 +76,9 @@ def create_app(init_profiler=True, init_admin=True):
     return app
 
 
-app = create_app()
+if __name__ == '__main__' or os.getenv('FLASK_RUN_FROM_CLI') == 'true':
+    """
+    For some reason falling back onto create_app when running ``flask run`` doesn't
+    bind pymongo.monitoring. See also: http://flask.pocoo.org/docs/1.0/cli/.
+    """
+    app = create_app()
