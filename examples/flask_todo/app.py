@@ -7,23 +7,6 @@ from flask_mongoengine import MongoEngine
 from .models import TodoTask
 
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(__name__)
-    app.config['MONGODB_SETTINGS'] = {'DB': 'testing'}
-    app.config['TESTING'] = True
-    db = MongoEngine()
-    db.init_app(app)
-
-    task = TodoTask(title='test title').save()
-
-    @app.route('/')
-    def index():
-        return app.response_class(response=task.to_json(), mimetype='application/json')
-
-    return app
-
-
 def setup_flask_mongo_profiler(app):
     from flask_mongo_profiler.contrib.werkzeug.mongo import QueuedMongoCommandLogger
     from flask_mongo_profiler.contrib.werkzeug.werkzeug_middleware import (
@@ -60,6 +43,28 @@ def setup_flask_admin(app):
         )
     )
     admin.init_app(app)
+    return app
+
+
+def create_app(init_profiler=True, init_admin=True):
+    app = Flask(__name__)
+    app.config.from_object(__name__)
+    app.config['MONGODB_SETTINGS'] = {'DB': 'testing'}
+    app.config['TESTING'] = True
+    db = MongoEngine()
+    db.init_app(app)
+
+    if init_profiler:
+        setup_flask_mongo_profiler(app)
+    if init_admin:
+        setup_flask_admin(app)
+
+    task = TodoTask(title='test title').save()
+
+    @app.route('/')
+    def index():
+        return app.response_class(response=task.to_json(), mimetype='application/json')
+
     return app
 
 
