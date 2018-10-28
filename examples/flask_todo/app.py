@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import os
-
-import jinja2
 from flask import Flask
 from flask_mongoengine import MongoEngine
+
+from flask_mongo_profiler.helpers import add_template_dirs
 
 from .models import TodoTask
 
@@ -64,21 +63,13 @@ def create_app(init_profiler=True, init_admin=True):
     if init_admin:
         setup_flask_admin(app)
 
+    add_template_dirs(app)
+
     @app.route('/')
     def index():
         TodoTask(title='test title').save()
         task = TodoTask.objects.first()
         return app.response_class(response=task.to_json(), mimetype='application/json')
-
-    template_dir = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-        'flask_mongo_profiler',
-        'templates',
-    )
-
-    app.jinja_loader = jinja2.ChoiceLoader(
-        [app.jinja_loader, jinja2.FileSystemLoader(template_dir)]
-    )
 
     return app
 
