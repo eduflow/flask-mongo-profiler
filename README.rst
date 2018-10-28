@@ -9,6 +9,25 @@ Installation
 
    $ pip install --user flask-mongo-profiler
 
+Example
+-------
+
+.. code-block:: shell
+
+   # inside of a virtualenv
+   $ pip install flask-mongo-profiler
+
+   $ pip install -r requirements/contrib.txt
+   $ cd examples/flask_todo
+
+   # With debugger
+   $ env FLASK_ENV=develoment flask run
+
+   # Without
+   $ flask run
+
+   # Load pages, go to http://localhost:5000/admin/
+
 Project details
 ---------------
 
