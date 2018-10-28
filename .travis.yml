@@ -4,7 +4,6 @@ sudo: false
 python:
   - 2.7
   - 3.6
-  - 3.7
 
 env:
   global:
@@ -14,6 +13,7 @@ matrix:
   include:
   - python: "3.7"
     sudo: required  # required for Python 3.7 (travis-ci/travis-ci#9069)
+    dist: xenial
   allow_failures:
   - python: pypy
 
