@@ -5,6 +5,7 @@ import sys
 from os.path import dirname, relpath
 
 import flask_mongo_profiler
+from flask_mongo_profiler import contrib
 
 # Get the project root dir, which is the parent dir of this
 cwd = os.getcwd()
