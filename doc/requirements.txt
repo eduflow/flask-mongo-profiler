@@ -1,1 +1,3 @@
 -r ../requirements/doc.txt
+# Used by sphinx.ext.autodoc
+-r ../requirements/contrib.txt
