@@ -6,10 +6,10 @@ import re
 
 import bson
 import mongoengine
-import ushlex
 from flask_admin.contrib.mongoengine.tools import parse_like_term
 from flask_admin.contrib.mongoengine.view import ModelView
 
+from ...._compat import shlex
 from ....constants import RE_OBJECTID
 from ..formatters.date import date_formatter
 from ..formatters.polymorphic_relations import (
@@ -135,7 +135,7 @@ class RelationalSearchMixin(object):
         """
         criterias = mongoengine.Q()
         rel_criterias = mongoengine.Q()
-        terms = ushlex.split(search_term)
+        terms = shlex.split(search_term)
 
         # If an ObjectId pattern, see if we can get an instant lookup.
         if len(terms) == 1 and re.match(RE_OBJECTID, terms[0]):
