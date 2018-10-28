@@ -64,10 +64,10 @@ def create_app(init_profiler=True, init_admin=True):
     if init_admin:
         setup_flask_admin(app)
 
-    task = TodoTask(title='test title').save()
-
     @app.route('/')
     def index():
+        TodoTask(title='test title').save()
+        task = TodoTask.objects.first()
         return app.response_class(response=task.to_json(), mimetype='application/json')
 
     template_dir = os.path.join(
