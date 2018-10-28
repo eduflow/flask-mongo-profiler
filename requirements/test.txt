@@ -1,2 +1,3 @@
 pytest==3.9.2
 pytest-flask==0.14.0
+wsgi-intercept==1.8.0
