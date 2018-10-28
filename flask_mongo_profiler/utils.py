@@ -33,7 +33,7 @@ def sanitize_dict(d, reverse=False):
     elif not isinstance(d, dict):
         return d
 
-    for k, v in d.iteritems():
+    for k, v in d.items():
         if isinstance(v, dict):
             v = sanitize_dict(v, reverse=reverse)
         elif isinstance(v, list):
