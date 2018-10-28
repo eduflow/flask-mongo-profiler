@@ -4,8 +4,6 @@
 API Reference
 =============
 
-.. module:: flask_mongo_profiler
-
 Utility
 -------
 
