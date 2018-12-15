@@ -1,7 +1,7 @@
 """Project lives at <https://github.com/peergradeio/flask-mongo-profiler>."""
 import sys
 
-from setuptools import setup
+from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand
 
 PY2 = sys.version_info[0] == 2
@@ -53,7 +53,8 @@ setup(
     author_email=about['__email__'],
     description=about['__description__'],
     long_description=readme,
-    packages=['flask_mongo_profiler'],
+    package_dir={'': 'flask_mongo_profiler'},
+    packages=find_packages(where='flask_mongo_profiler', exclude=['tests', 'examples']),
     include_package_data=True,
     install_requires=install_reqs,
     tests_require=tests_reqs,
